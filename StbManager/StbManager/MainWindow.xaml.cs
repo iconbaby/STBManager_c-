@@ -45,6 +45,7 @@ namespace StbManager
             }else{
                 pbStatus.Visibility = Visibility.Visible;//display progressbar
                 tb_pbText.Visibility = Visibility.Visible;
+                btn_connectStb.IsEnabled = false;
                 BackgroundWorker connectADBWork = new BackgroundWorker();
                 connectADBWork.WorkerReportsProgress = true;
                 connectADBWork.DoWork += connectADBWork_DoWork;
@@ -62,10 +63,16 @@ namespace StbManager
             string result = connectADB(stbIp);
             Console.WriteLine("connect result: " + result);
 
-            if (result.Trim().Contains("connected to")) {
-                (sender as BackgroundWorker).ReportProgress(100);
-            } else if (result.Trim().Contains("failed to connect")) {
+            if (result.Trim().Contains("already connected to"))
+            {
+                (sender as BackgroundWorker).ReportProgress(50);
+            }
+            else if (result.Trim().Contains("failed to connect"))
+            {
                 (sender as BackgroundWorker).ReportProgress(0);
+            }
+            else if (result.Trim().Contains("connected to")) {
+                (sender as BackgroundWorker).ReportProgress(100);
             }
             
         }
@@ -75,20 +82,24 @@ namespace StbManager
             Console.WriteLine(e.ProgressPercentage);
             if (e.ProgressPercentage == 100)
             {
-                pbStatus.Visibility = Visibility.Hidden;
-                tb_pbText.Visibility = Visibility.Hidden;
                 MessageBox.Show(this, "连接成功               ", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-            }else if (e.ProgressPercentage == 0) {
-                pbStatus.Visibility = Visibility.Hidden;
-                tb_pbText.Visibility = Visibility.Hidden;
+            }
+            else if (e.ProgressPercentage == 0) {   
                 MessageBox.Show(this, "连接失败               ", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            else if (e.ProgressPercentage == 50)
+            {
+                MessageBox.Show(this, "已连接，不用重复连接", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
         }
 
         private void connectADBWork_DoWork_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //Console.WriteLine("cmd end"+e.Result.ToString());
-
+            pbStatus.Visibility = Visibility.Hidden;
+            tb_pbText.Visibility = Visibility.Hidden;
+            btn_connectStb.IsEnabled = true;
 
         }
 
