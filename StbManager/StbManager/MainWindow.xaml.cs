@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using StbManager.CustomMessageBox;
 
 namespace StbManager
 {
@@ -21,6 +22,7 @@ namespace StbManager
     /// </summary>
     public partial class MainWindow : Window
     {
+      
         public MainWindow()
         {
             InitializeComponent();
@@ -33,36 +35,65 @@ namespace StbManager
 
         private void Btn_connectStb_Click(object sender, RoutedEventArgs e)
         {
+
+            //MessageBox.Show(this, "正在连接机顶盒中...", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MyMessageBox.Show("ehlle","hee");
             
-            MessageBox.Show(this, "正在连接机顶盒中...", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-            connectADB();
-            //BackgroundWorker connectADBWork = new  BackgroundWorker();
-            //connectADBWork.WorkerReportsProgress = true;
-            //connectADBWork.DoWork += connectADBWork_DoWork;
-            //connectADBWork.ProgressChanged += connectADBWork_ProgressChange;
-            //connectADBWork.RunWorkerCompleted += connectADBWork_DoWork_RunWorkerCompleted;
-            //connectADBWork.RunWorkerAsync();
+            string stbIp = tb_stbIp.Text.Trim().ToString();
+            if (string.IsNullOrEmpty(stbIp)) {
+                MessageBox.Show("IP不能为空,请输入", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
+            }else{
+                pbStatus.Visibility = Visibility.Visible;//display progressbar
+                tb_pbText.Visibility = Visibility.Visible;
+                BackgroundWorker connectADBWork = new BackgroundWorker();
+                connectADBWork.WorkerReportsProgress = true;
+                connectADBWork.DoWork += connectADBWork_DoWork;
+                connectADBWork.ProgressChanged += connectADBWork_ProgressChange;
+                connectADBWork.RunWorkerCompleted += connectADBWork_DoWork_RunWorkerCompleted;
+                connectADBWork.RunWorkerAsync(stbIp);
+            }
+
         }
 
         private void connectADBWork_DoWork(object sender, DoWorkEventArgs e)
         {
+            string stbIp = (string)e.Argument;
+            Console.WriteLine(stbIp);
+            string result = connectADB(stbIp);
+            Console.WriteLine("connect result: " + result);
+
+            if (result.Trim().Contains("connected to")) {
+                (sender as BackgroundWorker).ReportProgress(100);
+            } else if (result.Trim().Contains("failed to connect")) {
+                (sender as BackgroundWorker).ReportProgress(0);
+            }
             
-            connectADB();
         }
 
         private void connectADBWork_ProgressChange(object sender, ProgressChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(e.ProgressPercentage);
+            if (e.ProgressPercentage == 100)
+            {
+                pbStatus.Visibility = Visibility.Hidden;
+                tb_pbText.Visibility = Visibility.Hidden;
+                MessageBox.Show(this, "连接成功               ", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }else if (e.ProgressPercentage == 0) {
+                pbStatus.Visibility = Visibility.Hidden;
+                tb_pbText.Visibility = Visibility.Hidden;
+                MessageBox.Show(this, "连接失败               ", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void connectADBWork_DoWork_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Console.WriteLine("cmd end");
-            
+            //Console.WriteLine("cmd end"+e.Result.ToString());
+
+
         }
 
-        private void connectADB() {
-            string str = "ipconfig";
+        private string connectADB(string ip) {
+            string str = "adb connect " + ip;
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";//调用命令提示符
             p.StartInfo.UseShellExecute = false;    //是否使用操作系统shell启动
@@ -93,7 +124,8 @@ namespace StbManager
 
             p.WaitForExit();//等待程序执行完退出进程
             p.Close();
-            Console.WriteLine(output);
+            //Console.WriteLine(output);
+            return output;
         }
     }
 
