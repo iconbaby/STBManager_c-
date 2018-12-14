@@ -5,7 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StbManager"
         mc:Ignorable="d"
-        Title="StbManager" Height="600" Width="800" Background="#FF383E54" Icon="/StbManager;component/Images/icon.png">
+        Title="StbManager" Height="600" Width="800" Background="#FF383E54" Icon="/StbManager;component/Images/icon1.png" WindowStartupLocation ="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+        </Style>
+
+        <!--<Style TargetType="{x:Type Button}">
+            <Setter Property="MinWidth" Value="100"></Setter>
+            <Setter Property="MinHeight" Value="50"></Setter>
+            <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="3" BorderBrush="DarkViolet" CornerRadius="3" 
+                     Background="{TemplateBinding Background}"
+                     Margin="{TemplateBinding Margin}"
+                     Padding="{TemplateBinding Padding}"
+                     MinWidth="{TemplateBinding MinWidth}" 
+                     MinHeight="{TemplateBinding MinHeight}"
+                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                     VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <TextBlock Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"  
+                      FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Text="{TemplateBinding Content}"></TextBlock>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        
+    </Window.Resources>
+    
     <DockPanel>
         <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" >
             <Button Name="btn_prev" Click="Btn_prev_Click" Padding="10" Margin="10" MinWidth="100">Prev</Button>
@@ -45,7 +76,7 @@
 
         <Rectangle DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="1" Margin="2" Stroke="Black" />
 
-        <TabControl Margin="10" Name="tc_control" TabStripPlacement ="Left" DockPanel.Dock="Left" BorderThickness="0"  Background="#FF282A35">
+        <TabControl Margin="10" Name="tc_control" TabStripPlacement ="Left" DockPanel.Dock="Left" BorderThickness="0"  Background="#FF282A35" FontSize="15">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -87,7 +118,12 @@
                         <Label VerticalAlignment="Center" Foreground="White">连接机顶盒</Label>
                     </WrapPanel>
                 </TabItem.Header>
-                <Label Foreground="#FFFFFFFF">this is General</Label>
+                <WrapPanel Margin="10">
+                    <Label Foreground="#FFFFFFFF" Style="{StaticResource LabelStyle}">机顶盒IP:</Label>
+                    <TextBox MinWidth="200" Margin="10,0,0,0"></TextBox>
+                    <Button Name="btn_connectStb" Margin="10,0,0,0" MinWidth="100" Click="Btn_connectStb_Click">连接</Button>
+                </WrapPanel>
+                
             </TabItem>
 
             <TabItem >
