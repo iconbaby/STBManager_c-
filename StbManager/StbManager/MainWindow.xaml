@@ -1,0 +1,123 @@
+﻿<Window x:Class="StbManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StbManager"
+        mc:Ignorable="d"
+        Title="StbManager" Height="600" Width="800" Background="#FF383E54" Icon="/StbManager;component/Images/icon.png">
+    <DockPanel>
+        <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" >
+            <Button Name="btn_prev" Click="Btn_prev_Click" Padding="10" Margin="10" MinWidth="100">Prev</Button>
+            <Button Name="btn_next" Click="Btn_next_Click" Padding="10" Margin="10" MinWidth="100">Next</Button>
+            <Button Name="btn_selected" Click="Btn_selected_Click" Padding="10" Margin="10" MinWidth="100">Selected</Button>
+        </StackPanel>-->
+        <Menu DockPanel.Dock="Top" FontSize="15" Background="#FF383E54" Height="20" Foreground="White" Margin="10,4,0,0">
+            <MenuItem Header="_File" >
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
+
+        <Rectangle DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="1" Margin="2" Stroke="Black" />
+
+        <TabControl Margin="10" Name="tc_control" TabStripPlacement ="Left" DockPanel.Dock="Left" BorderThickness="0"  Background="#FF282A35">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1,1,0,1" BorderBrush="#FF383E54" CornerRadius="4,0,0,4" Margin="2,2,0,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                        ContentSource="Header"
+                                        Margin="10,10"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="#FF282A35" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="#FF383E54" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+            <!--<TabItem>
+                <TabItem.Header>
+                    <WrapPanel >
+                        <Label VerticalAlignment="Center" Foreground="White" Height="60" FontSize="18" >HG STB Manager</Label>
+                    </WrapPanel>
+                </TabItem.Header>
+            </TabItem>-->
+
+            <TabItem >
+                <TabItem.Header>
+                    <WrapPanel >
+                        <Image Source="/StbManager;component/Images/bullet-blue.png" Stretch="None"></Image>
+                        <Label VerticalAlignment="Center" Foreground="White">连接机顶盒</Label>
+                    </WrapPanel>
+                </TabItem.Header>
+                <Label Foreground="#FFFFFFFF">this is General</Label>
+            </TabItem>
+
+            <TabItem >
+                <TabItem.Header>
+                    <WrapPanel >
+                        <Image Source="/StbManager;component/Images/bullet-red.png" Stretch="None"></Image>
+                        <Label VerticalAlignment="Center" Foreground="White">基本信息</Label>
+                    </WrapPanel>
+                </TabItem.Header>
+                <Label Foreground="#FFFFFFFF">This is Security</Label>
+            </TabItem>
+            <TabItem >
+                <TabItem.Header>
+                    <WrapPanel >
+                        <Image Source="/StbManager;component/Images/bullet-yellow.png" Stretch="None"></Image>
+                        <Label VerticalAlignment="Center" Foreground="White">属性设置</Label>
+                    </WrapPanel>
+                </TabItem.Header>
+                <Label Foreground="#FFFFFFFF">This is Detail</Label>
+            </TabItem>
+            <TabItem >
+                <TabItem.Header>
+                    <WrapPanel >
+                        <Image Source="/StbManager;component/Images/bullet-green.png" Stretch="None"></Image>
+                        <Label VerticalAlignment="Center" Foreground="White">抓网络包或日志</Label>
+                    </WrapPanel>
+                </TabItem.Header>
+                <Label Foreground="#FFFFFFFF">This is Detail</Label>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
+</Window>
