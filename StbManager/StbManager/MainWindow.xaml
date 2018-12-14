@@ -139,7 +139,10 @@
                         <Label VerticalAlignment="Center" Foreground="White">基本信息</Label>
                     </WrapPanel>
                 </TabItem.Header>
-                <Label Foreground="#FFFFFFFF">This is Security</Label>
+                <!--<Label Foreground="#FFFFFFFF">This is Security</Label>-->
+                <Frame Source="Page1.xaml">
+                    
+                </Frame>
             </TabItem>
             <TabItem >
                 <TabItem.Header>

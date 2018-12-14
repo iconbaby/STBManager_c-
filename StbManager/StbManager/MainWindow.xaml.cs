@@ -34,11 +34,7 @@ namespace StbManager
         }
 
         private void Btn_connectStb_Click(object sender, RoutedEventArgs e)
-        {
-
-            //MessageBox.Show(this, "正在连接机顶盒中...", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-            //MyMessageBox.Show("ehlle","hee");
-            
+        {            
             string stbIp = tb_stbIp.Text.Trim().ToString();
             if (string.IsNullOrEmpty(stbIp)) {
                 MessageBox.Show("IP不能为空,请输入", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
