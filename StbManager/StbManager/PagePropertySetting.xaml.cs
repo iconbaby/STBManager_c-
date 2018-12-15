@@ -32,6 +32,20 @@ namespace StbManager
             lv_propertyInfo.ItemsSource = propertiesList;
         }
 
+        private bool UserFilter(object item)
+        {
+            if (String.IsNullOrEmpty(tb_search.Text))
+                return true;
+            else
+                return ((item as PropertyEntity).Name.IndexOf(tb_search.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(lv_propertyInfo.ItemsSource).Refresh();
+        }
+
+
         private void getStbProperties()
         {
             BackgroundWorker connectADBWork = new BackgroundWorker();
@@ -45,6 +59,8 @@ namespace StbManager
         private void getStbProperties_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //throw new NotImplementedException();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lv_propertyInfo.ItemsSource);
+            view.Filter = UserFilter;
         }
 
         private void getStbProperties_DoWork(object sender, DoWorkEventArgs e)
@@ -73,6 +89,7 @@ namespace StbManager
 
             propertiesList.Add(new PropertyEntity { Name = "ffff", Value = "b", CanModify = true });
 
+
         }
 
         private void getStbProperties_ProgressChange(object sender, ProgressChangedEventArgs e)
@@ -86,6 +103,7 @@ namespace StbManager
         {
             PropertyEntity propertyEntity = ((ListViewItem)sender).Content as PropertyEntity;
             Console.WriteLine(propertyEntity.Name);
+            MessageBox.Show("更改", "修改属性", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private string getStbPropertiesFromADB()
@@ -126,6 +144,8 @@ namespace StbManager
             //Console.WriteLine(output);
             return output;
         }
+
+
     }
 
     public class PropertyEntity
