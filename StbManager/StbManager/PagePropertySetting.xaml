@@ -21,8 +21,8 @@
                 </ListView.Resources>
                 <ListView.View>
                     <GridView >
-                        <GridViewColumn Header="属性名" Width="200" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-                        <GridViewColumn Header="属性值" Width="200" DisplayMemberBinding="{Binding Value}"></GridViewColumn>
+                        <GridViewColumn Header="属性名" Width="220" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                        <GridViewColumn Header="属性值" Width="220" DisplayMemberBinding="{Binding Value}"></GridViewColumn>
                         <GridViewColumn Header="是否可修改" Width="100" DisplayMemberBinding="{Binding CanModify}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
