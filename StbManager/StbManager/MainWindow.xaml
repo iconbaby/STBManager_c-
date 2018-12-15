@@ -144,6 +144,7 @@
                     
                 </Frame>
             </TabItem>
+            
             <TabItem >
                 <TabItem.Header>
                     <WrapPanel >
@@ -151,8 +152,9 @@
                         <Label VerticalAlignment="Center" Foreground="White">属性设置</Label>
                     </WrapPanel>
                 </TabItem.Header>
-                <Label Foreground="#FFFFFFFF">This is Detail</Label>
+                <Frame Source="PagePropertySetting.xaml"></Frame>
             </TabItem>
+            
             <TabItem >
                 <TabItem.Header>
                     <WrapPanel >
