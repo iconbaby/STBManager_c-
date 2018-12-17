@@ -103,7 +103,12 @@ namespace StbManager
         {
             PropertyEntity propertyEntity = ((ListViewItem)sender).Content as PropertyEntity;
             Console.WriteLine(propertyEntity.Name);
-            MessageBox.Show("更改", "修改属性", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("更改", "修改属性", MessageBoxButton.OK, MessageBoxImage.Information);
+            CustomInputDialog inputDialog =  new CustomInputDialog("请输入需要修改为的属性值：");
+            if (inputDialog.ShowDialog() == true) {
+                String value = inputDialog.Value;
+                Console.WriteLine(value);
+            }
         }
 
         private string getStbPropertiesFromADB()
