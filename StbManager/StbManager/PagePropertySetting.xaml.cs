@@ -65,7 +65,7 @@ namespace StbManager
 
         private void getStbProperties_DoWork(object sender, DoWorkEventArgs e)
         {
-            string allString = getStbPropertiesFromADB("adb shell getprop").Trim();
+            string allString = excuteCmd("adb shell getprop").Trim();
             int index = allString.IndexOf("adb shell getprop&exit");
             string allPropertyString = allString.Substring(index + 22);
             //Console.Write(allPropertyString);
@@ -96,23 +96,46 @@ namespace StbManager
             //throw new NotImplementedException();
         }
 
-     
+        private void setStbProperties(string propertyKey,string propertyValue) {
+           BackgroundWorker setPropertiesWork =  new BackgroundWorker();
+           setPropertiesWork.WorkerReportsProgress = false;
+            setPropertiesWork.DoWork += setStbProperties_DoWork;
+            setPropertiesWork.RunWorkerCompleted += setStbProperties_RunWorkerCompleted;
+            PropertyEntity property = new PropertyEntity { Name = propertyKey, Value =  propertyValue };
+            setPropertiesWork.RunWorkerAsync(property);
+        }
+
+        private void setStbProperties_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void setStbProperties_DoWork(object sender, DoWorkEventArgs e)
+        {
+            PropertyEntity property = (PropertyEntity)e.Argument;
+            string cmd = "adb shell setprop" + property.Name + " " + property.Value;
+            excuteCmd(cmd);
+        }
 
         private void Lv_propertyInfo_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             PropertyEntity propertyEntity = ((ListViewItem)sender).Content as PropertyEntity;
-            Console.WriteLine(propertyEntity.Name);
+            string propertyKey = propertyEntity.Name;
+            Console.WriteLine(propertyKey);
             //MessageBox.Show("更改", "修改属性", MessageBoxButton.OK, MessageBoxImage.Information);
             CustomInputDialog inputDialog =  new CustomInputDialog("请输入需要修改为的属性值：");
             if (inputDialog.ShowDialog() == true) {
                 String value = inputDialog.Value;
                 Console.WriteLine(value);
+                if (!string.IsNullOrEmpty(value)) {
+                    setStbProperties(propertyKey,value);
+                }
             }
         }
 
-        private string getStbPropertiesFromADB(string cmd)
+        private string excuteCmd(string cmd)
         {
-            Console.WriteLine("getStbPropertiesFromADB" + cmd);
+            Console.WriteLine("excuteCmd" + cmd);
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";//调用命令提示符
             p.StartInfo.UseShellExecute = false;    //是否使用操作系统shell启动
