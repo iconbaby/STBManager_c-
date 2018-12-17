@@ -65,7 +65,7 @@ namespace StbManager
 
         private void getStbProperties_DoWork(object sender, DoWorkEventArgs e)
         {
-            string allString = getStbPropertiesFromADB().Trim();
+            string allString = getStbPropertiesFromADB("adb shell getprop").Trim();
             int index = allString.IndexOf("adb shell getprop&exit");
             string allPropertyString = allString.Substring(index + 22);
             //Console.Write(allPropertyString);
@@ -89,7 +89,6 @@ namespace StbManager
 
             propertiesList.Add(new PropertyEntity { Name = "ffff", Value = "b", CanModify = true });
 
-
         }
 
         private void getStbProperties_ProgressChange(object sender, ProgressChangedEventArgs e)
@@ -111,10 +110,9 @@ namespace StbManager
             }
         }
 
-        private string getStbPropertiesFromADB()
+        private string getStbPropertiesFromADB(string cmd)
         {
-            Console.WriteLine("getStbPropertiesFromADB");
-            string str = "adb shell getprop";
+            Console.WriteLine("getStbPropertiesFromADB" + cmd);
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";//调用命令提示符
             p.StartInfo.UseShellExecute = false;    //是否使用操作系统shell启动
@@ -125,7 +123,7 @@ namespace StbManager
             p.Start();//启动程序
 
             //向cmd窗口发送输入信息
-            p.StandardInput.WriteLine(str + "&exit");
+            p.StandardInput.WriteLine(cmd + "&exit");
 
             p.StandardInput.AutoFlush = true;
             //p.StandardInput.WriteLine("exit");
